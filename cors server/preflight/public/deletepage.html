@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>CORS Preflight DELETE Testing</title>
+</head>
+
+<body>
+
+  <h1>DELETE Testing with CORS Preflight</h1>
+
+  <!-- ======================================== -->
+  <!-- ALLOW DELETE -->
+  <!-- ======================================== -->
+
+  <h2>Allow DELETE Route</h2>
+
+  <form id="allowDeleteForm">
+
+    <input
+      type="number"
+      id="allowId"
+      placeholder="Enter ID to Delete"
+      required
+    />
+
+    <button type="submit">
+      Allow DELETE
+    </button>
+
+  </form>
+
+  <p id="allowMsg"></p>
+
+  <hr>
+
+  <!-- ======================================== -->
+  <!-- BLOCK DELETE -->
+  <!-- ======================================== -->
+
+  <h2>Block DELETE Route</h2>
+
+  <form id="blockDeleteForm">
+
+    <input
+      type="number"
+      id="blockId"
+      placeholder="Enter ID to Delete"
+      required
+    />
+
+    <button type="submit">
+      Block DELETE
+    </button>
+
+  </form>
+
+  <p id="blockMsg"></p>
+
+
+  <script>
+
+    // ========================================
+    // ALLOW DELETE
+    // ========================================
+
+    document
+      .getElementById("allowDeleteForm")
+      .addEventListener("submit", async function (e) {
+
+        e.preventDefault();
+
+        const id =
+          document.getElementById("allowId").value;
+
+        try {
+
+          const res = await fetch(
+
+            `http://localhost:3500/allow-delete/${id}`,
+
+            {
+              method: "DELETE",
+
+              headers: {
+                "Authorization": "Bearer testtoken"
+              }
+
+            }
+
+          );
+
+          const result = await res.json();
+
+          document.getElementById("allowMsg")
+            .innerText = result.message;
+
+        } catch (err) {
+
+          document.getElementById("allowMsg")
+            .innerText = err.message;
+
+          console.error(err);
+
+        }
+
+      });
+
+
+
+    // ========================================
+    // BLOCK DELETE
+    // ========================================
+
+    document
+      .getElementById("blockDeleteForm")
+      .addEventListener("submit", async function (e) {
+
+        e.preventDefault();
+
+        const id =
+          document.getElementById("blockId").value;
+
+        try {
+
+          const res = await fetch(
+
+            `http://localhost:3500/block-delete/${id}`,
+
+            {
+              method: "DELETE",
+
+              headers: {
+                "Authorization": "Bearer testtoken"
+              }
+
+            }
+
+          );
+
+          const result = await res.json();
+
+          document.getElementById("blockMsg")
+            .innerText = result.message;
+
+        } catch (err) {
+
+          document.getElementById("blockMsg")
+            .innerText = "Blocked by CORS Preflight";
+
+          console.error(err);
+
+        }
+
+      });
+
+  </script>
+
+</body>
+
+</html>

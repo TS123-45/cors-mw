@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CORS Test Client</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        #output {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            background: #f4f4f4;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>CORS Test (127.0.0.1:5000 → localhost:3500)</h1>
+
+<button onclick="getHome()">Fetch Home Page</button>
+<button onclick="getContact()">Fetch Contact Page</button>
+
+<div id="output">Response will appear here...</div>
+
+<script>
+    const output = document.getElementById("output");
+
+    function getHome() {
+        fetch("http://localhost:3500/home")
+            .then(res => res.text())
+            .then(data => {
+                output.textContent = "Home Page Response:\n\n" + data;
+            })
+            .catch(err => {
+                output.textContent = "Error:\n" + err;
+            });
+    }
+
+    function getContact() {
+        fetch("http://localhost:3500/contact")
+            .then(res => res.text())
+            .then(data => {
+                output.textContent = "Contact Page Response:\n\n" + data;
+            })
+            .catch(err => {
+                output.textContent = "Error:\n" + err;
+            });
+    }
+</script>
+
+</body>
+</html>
