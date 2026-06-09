@@ -1,0 +1,99 @@
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  }),
+);
+
+
+Normally, CORS can be configured like:
+
+cors({
+  origin: "https://example.com",
+});
+But here a **custom function** is used:
+
+origin: function (origin, callback) {
+}
+
+This function runs for every incoming request and decides whether to allow it.
+
+
+if (!origin || allowedOrigins.includes(origin))
+
+This allows the request when:
+
+Case A: No origin
+!origin
+
+Examples:
+
+* Postman requests
+* curl commands
+* Server-to-server requests
+* Mobile apps
+
+These requests often don't send an `Origin` header.
+
+Example:
+curl http://localhost:3000/api/users
+
+`origin` will be:
+undefined
+
+and the request is allowed.
+
+
+Case B: Origin is in whitelist
+allowedOrigins.includes(origin)
+
+Suppose:
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://myapp.com",
+];
+
+If the request comes from:
+
+Origin: https://myapp.com
+
+then:
+
+allowedOrigins.includes("https://myapp.com")
+
+returns:
+
+true
+
+and access is granted.
+
+
+Actually the callback signature is:
+callback(error, allow);
+
+So:
+callback(null, true);
+
+means:
+
+* No error
+* Origin is allowed
+
+
+callback(new Error("Not allowed by CORS"));
+
+If the origin is not in the whitelist:
+
+then:
+allowedOrigins.includes("https://evil-site.com")
+
+returns:
+false
+
+and the request is rejected with a CORS error.
