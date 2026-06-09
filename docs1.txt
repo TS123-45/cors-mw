@@ -1,4 +1,4 @@
-Configuring CORS Options
+Configuring CORS Options:
 You can configure multiple CORS settings.
 
 app.use(cors({
@@ -18,7 +18,7 @@ allowed HTTP methods
 allowedHeaders
 allowed headers
 
-6️⃣ Dynamic Origin
+Dynamic Origin:
 Sometimes you want to check origins programmatically.
 Example:
 const allowedOrigins = [
